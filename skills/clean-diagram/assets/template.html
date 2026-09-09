@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+__EDITORIAL_CSS__
+
+/* --- diagram-specific overrides, same tokens --- */
+.diagram-canvas { padding: 24px 4px 4px; overflow: auto; }
+.diagram-canvas svg { max-width: none; }
+g.node { cursor: grab; }
+g.node.is-dragging { cursor: grabbing; }
+
+.node rect, .node polygon, .node circle {
+  fill: var(--bg-1) !important;
+  stroke: var(--line-strong) !important;
+  stroke-width: 1px !important;
+  transition: stroke .15s var(--ease-out), stroke-width .15s var(--ease-out);
+}
+/* semantic node roles — apply with `class NodeId <role>` in the Mermaid source */
+.node.entry rect, .node.entry polygon {
+  fill: var(--accent-soft) !important;
+  stroke: var(--accent) !important;
+  stroke-width: 1.5px !important;
+}
+.node.store rect, .node.store polygon, .node.store circle {
+  fill: var(--bg-2) !important;
+  stroke: var(--sub) !important;
+}
+.node.external rect, .node.external polygon {
+  fill: var(--bg-1) !important;
+  stroke: var(--line-strong) !important;
+  stroke-dasharray: 4 3 !important;
+}
+.node.optional rect, .node.optional polygon {
+  stroke-dasharray: 3 2 !important;
+  opacity: .75;
+}
+.node:hover rect, .node:hover polygon, .node:hover circle {
+  stroke: var(--accent) !important;
+  stroke-width: 1.5px !important;
+}
+.nodeLabel, .edgeLabel {
+  font-family: var(--sans) !important;
+  font-size: 13px !important;
+  color: var(--fg) !important;
+}
+.nodeLabel .sublabel {
+  display: block;
+  font-family: var(--mono) !important;
+  font-size: 9.5px !important;
+  letter-spacing: .04em;
+  color: var(--sub) !important;
+  margin-top: 2px;
+}
+.edgeLabel { background-color: var(--bg-1) !important; color: var(--sub) !important; }
+.edgePath path, path.flowchart-link { stroke: var(--sub) !important; stroke-width: 1px !important; }
+.cluster rect { stroke: var(--line) !important; fill: transparent !important; }
+.cluster .cluster-label span, .cluster .cluster-label p {
+  font-family: var(--mono) !important;
+  font-size: 10.5px !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  color: var(--sub) !important;
+}
+
+.panel-actions { display: flex; align-items: center; gap: 12px; }
+#notes-panel .row-title { font-size: 15px; }
+#notes-panel .row .body { margin: 4px 0 0; }
+.explain p { max-width: 60ch; }
+.view-switch { max-width: 340px; margin-top: 20px; }
+</style>
+</head>
+<body>
+<div class="container" style="max-width: 1040px;">
+  <header class="page-hero" style="padding: 40px 0 28px;">
+    <span class="eyebrow">SYSTEM MAP</span>
+    <h1>__TITLE__</h1>
+    <p class="lede">__SUBTITLE__</p>
+    __VIEW_SWITCH__
+  </header>
+
+  <section id="view-engineer" style="margin-top: 24px;">
+    <section class="panel is-accent diagram-panel" id="panel-engineer" style="margin-bottom: 2px;">
+      <div class="panel-head">
+        <h3>Architecture</h3>
+        <span class="panel-actions">
+          <span class="meta">__SCOPE__</span>
+          <button class="btn btn-quiet btn-sm" data-reset="panel-engineer" type="button">重設佈局</button>
+        </span>
+      </div>
+      <div class="diagram-canvas">
+        <pre class="mermaid">
+__MERMAID_DEF__
+        </pre>
+      </div>
+      <p class="meta" style="margin: 12px 0 0;">DRAG NODES TO REARRANGE · LAYOUT SAVED IN THIS BROWSER</p>
+    </section>
+
+__NOTES_PANEL__
+  </section>
+
+__PLAIN_VIEW__
+</div>
+
+<script>__MERMAID_JS__</script>
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: "base",
+    themeVariables: {
+      primaryColor: "#1c1e21",
+      primaryBorderColor: "rgba(243,242,239,0.20)",
+      primaryTextColor: "#f3f2ef",
+      lineColor: "#97968f",
+      fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
+      fontSize: "13px"
+    },
+    flowchart: { curve: "basis", htmlLabels: true }
+  });
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function svgPoint(svg, el, x, y) {
+    var pt = svg.createSVGPoint();
+    pt.x = x; pt.y = y;
+    return pt.matrixTransform(el.getScreenCTM().inverse());
+  }
+
+  // Make one rendered diagram draggable. Positions persist per panel.
+  function initPanel(panel) {
+    if (panel.dataset.ready) { return; }
+    var svg = panel.querySelector(".diagram-canvas svg");
+    if (!svg) { requestAnimationFrame(function () { initPanel(panel); }); return; }
+    panel.dataset.ready = "1";
+
+    var storeKey = "clean-diagram:" + document.title + ":" + panel.id;
+    svg.setAttribute("role", "img");
+    svg.setAttribute("aria-label", document.title);
+
+    var nodes = Array.prototype.slice.call(svg.querySelectorAll("g.node"));
+    var edges = Array.prototype.slice.call(svg.querySelectorAll("g.edgePaths path, path.flowchart-link"));
+    var labels = Array.prototype.slice.call(svg.querySelectorAll("g.edgeLabels > g"));
+    if (!nodes.length) { return; }
+
+    var refEl = edges.length ? edges[0].parentNode : nodes[0].parentNode;
+    function boxOf(node) {
+      var r = node.getBoundingClientRect();
+      var a = svgPoint(svg, refEl, r.left, r.top);
+      var b = svgPoint(svg, refEl, r.right, r.bottom);
+      return { w: b.x - a.x, h: b.y - a.y, cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2 };
+    }
+
+    function nearestNode(pt) {
+      var best = null, bestD = Infinity;
+      nodes.forEach(function (n) {
+        var b = boxOf(n);
+        var d = Math.pow(b.cx - pt.x, 2) + Math.pow(b.cy - pt.y, 2);
+        if (d < bestD) { bestD = d; best = n; }
+      });
+      return best;
+    }
+
+    var links = edges.map(function (path) {
+      var len = path.getTotalLength();
+      if (!len) { return null; }
+      var from = nearestNode(path.getPointAtLength(0));
+      var to = nearestNode(path.getPointAtLength(len));
+      if (!from || !to || from === to) { return null; }
+      var mid = path.getPointAtLength(len / 2);
+      var label = null, bestD = 40 * 40;
+      labels.forEach(function (g) {
+        var r = g.getBoundingClientRect();
+        if (!r.width) { return; }
+        var c = svgPoint(svg, refEl, (r.left + r.right) / 2, (r.top + r.bottom) / 2);
+        var d = Math.pow(c.x - mid.x, 2) + Math.pow(c.y - mid.y, 2);
+        if (d < bestD) { bestD = d; label = g; }
+      });
+      return { path: path, from: from, to: to, label: label };
+    }).filter(Boolean);
+
+    // ponytail: dragged edges become straight segments instead of mermaid's
+    // curves — add orthogonal elbow routing only if crossings become a complaint.
+    function edgePoint(box, tx, ty) {
+      var dx = tx - box.cx, dy = ty - box.cy;
+      if (!dx && !dy) { return { x: box.cx, y: box.cy }; }
+      var sx = dx ? (box.w / 2) / Math.abs(dx) : Infinity;
+      var sy = dy ? (box.h / 2) / Math.abs(dy) : Infinity;
+      var s = Math.min(sx, sy);
+      return { x: box.cx + dx * s, y: box.cy + dy * s };
+    }
+
+    function redraw(node) {
+      links.forEach(function (l) {
+        if (node && l.from !== node && l.to !== node) { return; }
+        var a = boxOf(l.from), b = boxOf(l.to);
+        var p1 = edgePoint(a, b.cx, b.cy);
+        var p2 = edgePoint(b, a.cx, a.cy);
+        l.path.setAttribute("d", "M" + p1.x + "," + p1.y + "L" + p2.x + "," + p2.y);
+        if (l.label) {
+          l.label.setAttribute("transform", "translate(" + (p1.x + p2.x) / 2 + "," + (p1.y + p2.y) / 2 + ")");
+        }
+      });
+    }
+
+    var offsets = {};
+    try { offsets = JSON.parse(localStorage.getItem(storeKey) || "{}"); } catch (e) { offsets = {}; }
+
+    nodes.forEach(function (node) {
+      var m = /translate\(\s*([-\d.]+)[ ,]+([-\d.]+)/.exec(node.getAttribute("transform") || "");
+      node.__base = m ? { x: parseFloat(m[1]), y: parseFloat(m[2]) } : { x: 0, y: 0 };
+      var saved = offsets[node.id];
+      if (saved) {
+        node.setAttribute("transform", "translate(" + (node.__base.x + saved[0]) + "," + (node.__base.y + saved[1]) + ")");
+      }
+    });
+    if (Object.keys(offsets).length) { redraw(null); }
+
+    var active = null, start = null, startOffset = null;
+
+    svg.addEventListener("pointerdown", function (e) {
+      var node = e.target.closest && e.target.closest("g.node");
+      if (!node) { return; }
+      active = node;
+      node.classList.add("is-dragging");
+      start = svgPoint(svg, refEl, e.clientX, e.clientY);
+      startOffset = offsets[node.id] || [0, 0];
+      node.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    svg.addEventListener("pointermove", function (e) {
+      if (!active) { return; }
+      var p = svgPoint(svg, refEl, e.clientX, e.clientY);
+      var snap = function (v) { return Math.round(v / 4) * 4; };
+      offsets[active.id] = [snap(startOffset[0] + (p.x - start.x)), snap(startOffset[1] + (p.y - start.y))];
+      active.setAttribute("transform", "translate(" + (active.__base.x + offsets[active.id][0]) + "," + (active.__base.y + offsets[active.id][1]) + ")");
+      redraw(active);
+    });
+
+    function release() {
+      if (!active) { return; }
+      active.classList.remove("is-dragging");
+      active = null;
+      try { localStorage.setItem(storeKey, JSON.stringify(offsets)); } catch (e) { /* private mode */ }
+    }
+    svg.addEventListener("pointerup", release);
+    svg.addEventListener("pointercancel", release);
+
+    var reset = document.querySelector('[data-reset="' + panel.id + '"]');
+    if (reset) {
+      reset.addEventListener("click", function () {
+        try { localStorage.removeItem(storeKey); } catch (e) { /* ignore */ }
+        location.reload();
+      });
+    }
+
+    if (reduceMotion) { return; }
+    panel.animate(
+      [{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }],
+      { duration: 400, easing: "cubic-bezier(.16,1,.3,1)", fill: "backwards" }
+    );
+    nodes.concat(Array.prototype.slice.call(svg.querySelectorAll("g.cluster"))).forEach(function (el, i) {
+      el.animate(
+        [{ opacity: 0 }, { opacity: 1 }],
+        { duration: 350, delay: Math.min(i * 30, 400), easing: "cubic-bezier(.16,1,.3,1)", fill: "backwards" }
+      );
+    });
+  }
+
+  function showView(name) {
+    ["engineer", "plain"].forEach(function (v) {
+      var section = document.getElementById("view-" + v);
+      if (!section) { return; }
+      section.hidden = (v !== name);
+    });
+    document.querySelectorAll("[data-view]").forEach(function (b) {
+      b.classList.toggle("is-on", b.dataset.view === name);
+    });
+    var panel = document.querySelector("#view-" + name + " .diagram-panel");
+    if (panel) { initPanel(panel); }
+  }
+
+  document.querySelectorAll("[data-view]").forEach(function (b) {
+    b.addEventListener("click", function () { showView(b.dataset.view); });
+  });
+
+  showView("engineer");
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "clean-diagram",
+  "description": "Turn a codebase into one clean architecture map: an engineer view, a plain-language view for everyone else, and a short list of gaps worth a look. Self-contained HTML, draggable nodes, editorial dark styling.",
+  "version": "0.1.0",
+  "author": {
+    "name": "adiolk98",
+    "url": "https://github.com/adiolk98"
+  },
+  "license": "MIT",
+  "keywords": [
+    "architecture",
+    "diagram",
+    "codebase",
+    "mermaid",
+    "html",
+    "editorial"
+  ]
+}
