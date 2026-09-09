@@ -1,0 +1,15 @@
+{
+  "name": "clean-diagram",
+  "metadata": {
+    "description": "Turn a codebase into one clean architecture map: an engineer view, a plain-language view for everyone else, and a short list of gaps worth a look. Self-contained HTML, draggable nodes, editorial dark styling."
+  },
+  "owner": {
+    "name": "adiolk98"
+  },
+  "plugins": [
+    {
+      "name": "clean-diagram",
+      "source": "./"
+    }
+  ]
+}

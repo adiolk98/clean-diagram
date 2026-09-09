@@ -1,5 +1,8 @@
 # clean-diagram
 
+[![stars](https://img.shields.io/github/stars/adiolk98/clean-diagram?style=flat&labelColor=0a0a0b&color=c1442c)](https://github.com/adiolk98/clean-diagram/stargazers)
+[![license](https://img.shields.io/github/license/adiolk98/clean-diagram?style=flat&labelColor=0a0a0b&color=97968f)](LICENSE)
+
 把一個 codebase 變成一張架構圖 — 一個頁面,兩種視角,外加一份「值得看一下」的清單。
 
 給軟體工程用。不做 39 種圖型選單,不做驗證流程,不做品牌色抽取。
