@@ -66,7 +66,7 @@ def build_plain(plain_file, explain_file):
         '</section>'
         + (
             '<section class="panel explain" style="margin-bottom: 48px;">'
-            '<div class="panel-head"><h3>白話說明</h3><span class="meta">ELI5</span></div>'
+            '<div class="panel-head"><h3>白話說明</h3><span class="meta">PLAIN LANGUAGE</span></div>'
             f'{paragraphs}</section>' if paragraphs else ""
         )
         + '</section>'

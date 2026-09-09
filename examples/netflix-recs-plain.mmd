@@ -1,0 +1,14 @@
+flowchart LR
+  You["你"]
+  Home["首頁"]
+  Picker["挑片的系統"]
+  History[("你看過什麼")]
+  Rows["排好的推薦列"]
+  You -->|"打開 App"| Home
+  Home --> Picker
+  Picker --> History
+  Picker --> Rows
+  classDef entry fill:transparent
+  classDef store fill:transparent
+  class You entry
+  class History store

@@ -1,0 +1,38 @@
+flowchart LR
+  subgraph CLIENT
+    App["TV / Mobile App<br/><span class='sublabel'>gRPC · TLS</span>"]
+  end
+  subgraph SERVICE
+    Api["Recs API<br/><span class='sublabel'>Go · :8080</span>"]
+    Flags["Experiment Config<br/><span class='sublabel'>variant lookup</span>"]
+    Cand["Candidate Gen<br/><span class='sublabel'>Python · ANN search</span>"]
+    Rank["Ranker<br/><span class='sublabel'>Python · TorchServe</span>"]
+  end
+  subgraph DATA
+    Emb[("Title Embeddings<br/><span class='sublabel'>vector index</span>")]
+    Feat[("Feature Store<br/><span class='sublabel'>Redis · no TTL</span>")]
+    Events[("Event Log<br/><span class='sublabel'>Kafka · plays, skips</span>")]
+  end
+  Trainer["Training Job<br/><span class='sublabel'>nightly · Spark</span>"]
+  Cdn["Artwork CDN<br/><span class='sublabel'>third party</span>"]
+
+  App -->|GET /home| Api
+  Api --> Flags
+  Api --> Cand
+  Cand --> Emb
+  Cand -->|top 500| Rank
+  Rank --> Feat
+  App --> Cdn
+  App -.->|impressions| Events
+  Events -.-> Trainer
+  Trainer -->|writes| Emb
+  Trainer -->|writes| Feat
+
+  classDef entry fill:transparent
+  classDef store fill:transparent
+  classDef external fill:transparent
+  classDef optional fill:transparent
+  class App entry
+  class Emb,Feat,Events store
+  class Cdn external
+  class Trainer optional
