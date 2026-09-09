@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph AGENT
+    Skill["SKILL.md<br/><span class='sublabel'>workflow · grammar</span>"]
+    Claude["Claude<br/><span class='sublabel'>reads the codebase</span>"]
+  end
+  subgraph RENDERER
+    Render["render.py<br/><span class='sublabel'>python3 · stdlib</span>"]
+    Template["template.html<br/><span class='sublabel'>editorial dark · drag</span>"]
+  end
+  subgraph ASSETS
+    Css[("editorial-dark.css")]
+    Mermaid[("mermaid.min.js")]
+  end
+  Out["diagram.html<br/><span class='sublabel'>self-contained</span>"]
+
+  Claude -->|reads| Skill
+  Claude -->|writes .mmd + notes| Render
+  Render --> Template
+  Template --> Css
+  Template --> Mermaid
+  Render --> Out
+
+  classDef entry fill:transparent
+  classDef store fill:transparent
+  classDef external fill:transparent
+  class Claude entry
+  class Css,Mermaid store

@@ -9,7 +9,7 @@ __EDITORIAL_CSS__
 
 /* --- diagram-specific overrides, same tokens --- */
 .diagram-canvas { padding: 24px 4px 4px; overflow: auto; }
-.diagram-canvas svg { max-width: none; }
+.diagram-canvas svg { max-width: none; overflow: visible; }
 g.node { cursor: grab; }
 g.node.is-dragging { cursor: grabbing; }
 
@@ -42,20 +42,31 @@ g.node.is-dragging { cursor: grabbing; }
   stroke: var(--accent) !important;
   stroke-width: 1.5px !important;
 }
-.nodeLabel, .edgeLabel {
+/* mermaid wraps labels in .label, which the design system styles as a mono
+   uppercase field label — reset that inside the diagram only */
+.nodeLabel, .edgeLabel, .node .label, .edgeLabel .label {
   font-family: var(--sans) !important;
   font-size: 13px !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
   color: var(--fg) !important;
+  margin-bottom: 0 !important;
 }
 .nodeLabel .sublabel {
   display: block;
   font-family: var(--mono) !important;
   font-size: 9.5px !important;
-  letter-spacing: .04em;
+  letter-spacing: .04em !important;
   color: var(--sub) !important;
   margin-top: 2px;
 }
-.edgeLabel { background-color: var(--bg-1) !important; color: var(--sub) !important; }
+.edgeLabel, .edgeLabel .label {
+  background-color: var(--bg-1) !important;
+  color: var(--sub) !important;
+  font-family: var(--mono) !important;
+  font-size: 10px !important;
+  letter-spacing: .04em !important;
+}
 .edgePath path, path.flowchart-link { stroke: var(--sub) !important; stroke-width: 1px !important; }
 .cluster rect { stroke: var(--line) !important; fill: transparent !important; }
 .cluster .cluster-label span, .cluster .cluster-label p {
@@ -108,7 +119,7 @@ __PLAIN_VIEW__
 <script>__MERMAID_JS__</script>
 <script>
   mermaid.initialize({
-    startOnLoad: true,
+    startOnLoad: false,
     theme: "base",
     themeVariables: {
       primaryColor: "#1c1e21",
@@ -133,7 +144,7 @@ __PLAIN_VIEW__
   function initPanel(panel) {
     if (panel.dataset.ready) { return; }
     var svg = panel.querySelector(".diagram-canvas svg");
-    if (!svg) { requestAnimationFrame(function () { initPanel(panel); }); return; }
+    if (!svg) { return; }
     panel.dataset.ready = "1";
 
     var storeKey = "clean-diagram:" + document.title + ":" + panel.id;
@@ -287,7 +298,12 @@ __PLAIN_VIEW__
     b.addEventListener("click", function () { showView(b.dataset.view); });
   });
 
-  showView("engineer");
+  // Both diagrams must be laid out while visible — mermaid (and getBBox) can't
+  // measure inside a hidden section — so render first, then hide the second view.
+  mermaid.run().then(function () {
+    document.querySelectorAll(".diagram-panel").forEach(initPanel);
+    showView("engineer");
+  });
 </script>
 </body>
 </html>

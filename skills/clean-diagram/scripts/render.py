@@ -55,7 +55,7 @@ def build_plain(plain_file, explain_file):
         for p in read(explain_file).split("\n\n") if p.strip()
     )
     view = (
-        '<section id="view-plain" hidden style="margin-top: 24px;">'
+        '<section id="view-plain" style="margin-top: 24px;">'
         '<section class="panel diagram-panel" id="panel-plain" style="margin-bottom: 2px;">'
         '<div class="panel-head"><h3>怎麼運作的</h3>'
         '<span class="panel-actions"><span class="meta">FOR EVERYONE</span>'
