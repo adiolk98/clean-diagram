@@ -15,7 +15,7 @@ Small repo, short rules. English first, 繁體中文 below.
 ## Try a change
 
 ```bash
-python3 skills/clean-diagram/scripts/render.py examples/netflix-recs.mmd /tmp/out.html --title "Test"
+python3 skills/clean-diagram/scripts/render.py examples/streaming-recs.mmd /tmp/out.html --title "Test"
 open /tmp/out.html
 ```
 
@@ -42,7 +42,7 @@ Editing `SKILL.md`? Keep it short and imperative. It is a prompt, not docs.
 
 - One change per PR. A style tweak and a renderer fix are two PRs.
 - Conventional commits: `feat:`, `fix:`, `docs:`, `chore:`.
-- Changed the renderer or the assets? Re-render `examples/netflix-recs.html`
+- Changed the renderer or the assets? Re-render `examples/streaming-recs.html`
   and commit it, so the example matches the code.
 - No new runtime dependencies. `render.py` is stdlib-only python3, on purpose.
 - Bug report is fine too: paste the `.mmd` and what you expected to see.
@@ -50,7 +50,7 @@ Editing `SKILL.md`? Keep it short and imperative. It is a prompt, not docs.
 ## 繁體中文
 
 - 一個 PR 做一件事,commit 用 `feat:` / `fix:` / `docs:` / `chore:`。
-- 改了 renderer 或 assets,請重新產生 `examples/netflix-recs.html` 一起送出。
+- 改了 renderer 或 assets,請重新產生 `examples/streaming-recs.html` 一起送出。
 - 不要加新的執行期套件,`render.py` 只用 python3 標準函式庫。
 - 產出的 HTML 必須離線可開,不要引入 CDN。
 - 用 Claude Code 開發:`/plugin marketplace add .` 然後 `/plugin install clean-diagram`。

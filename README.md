@@ -77,8 +77,8 @@ draw one, and one I can show my boss
 If the scope is unclear it asks one question, then hands you an HTML file path.
 Mermaid is inlined — the file opens offline, no CDN.
 
-Example output: [`examples/netflix-recs.html`](examples/netflix-recs.html) — a
-I use Netflix recommendation for this.
+Example output: [`examples/streaming-recs.html`](examples/streaming-recs.html) — a
+a streaming recommendation path, made up for the demo.
 
 ## Running directly
 
@@ -86,7 +86,7 @@ Works without an agent:
 
 ```bash
 python3 skills/clean-diagram/scripts/render.py engineer.mmd out.html \
-  --title "Netflix Recommendations" --subtitle "home row · picking a few from tens of thousands" \
+  --title "Streaming Recommendations" --subtitle "home row · picking a few from tens of thousands" \
   --scope "recommendation path · 10 nodes" \
   --notes notes.txt --plain plain.mmd --explain explain.txt
 ```

@@ -76,7 +76,7 @@ prompt:
 範圍不確定時它會先問一句,然後給你一個 HTML 檔路徑。
 Mermaid 是內嵌的,檔案離線可開、不需要 CDN。
 
-範例輸出:[`examples/netflix-recs.html`](examples/netflix-recs.html)
+範例輸出:[`examples/streaming-recs.html`](examples/streaming-recs.html)
 
 ## 直接跑 renderer
 
@@ -84,7 +84,7 @@ Mermaid 是內嵌的,檔案離線可開、不需要 CDN。
 
 ```bash
 python3 skills/clean-diagram/scripts/render.py engineer.mmd out.html \
-  --title "Netflix Recommendations" --subtitle "首頁推薦 · 從幾萬部片挑出你會按下去的那幾部" \
+  --title "Streaming Recommendations" --subtitle "首頁推薦 · 從幾萬部片挑出你會按下去的那幾部" \
   --scope "recommendation path · 10 nodes" \
   --notes notes.txt --plain plain.mmd --explain explain.txt
 ```

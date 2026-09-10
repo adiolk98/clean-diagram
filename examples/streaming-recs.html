@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Netflix Recommendations</title>
+<title>Streaming Recommendations</title>
 <style>
 /* =========================================================
    Editorial Dark UI — design system
@@ -696,7 +696,7 @@ path.is-selected { stroke: var(--accent) !important; stroke-width: 2px !importan
 <div class="container" style="max-width: 1040px;">
   <header class="page-hero" style="padding: 40px 0 28px;">
     <span class="eyebrow">SYSTEM MAP</span>
-    <h1>Netflix Recommendations</h1>
+    <h1>Streaming Recommendations</h1>
     <p class="lede">首頁推薦 · 從幾萬部片挑出你會按下去的那幾部</p>
     <div class="seg view-switch"><button type="button" data-view="engineer" class="is-on">工程視角</button><button type="button" data-view="plain">說明視角</button></div>
   </header>
@@ -4420,7 +4420,9 @@ globalThis["mermaid"] = globalThis.__esbuild_esm_mermaid_nm["mermaid"].default;
 
    ponytail: line-based, not a real parser. It assumes the grammar this skill
    writes — one node declaration per line, labels in double quotes. Anything it
-   can't place, it refuses (returns null) and the page falls back to read-only. */
+   can't place, it refuses (returns null) and the page falls back to read-only.
+   Reach for a real parser only when hand-written .mmd files start hitting that
+   refusal. */
 (function (root, factory) {
   var api = factory();
   if (typeof module === "object" && module.exports) { module.exports = api; }
