@@ -3,7 +3,9 @@
 
    ponytail: line-based, not a real parser. It assumes the grammar this skill
    writes — one node declaration per line, labels in double quotes. Anything it
-   can't place, it refuses (returns null) and the page falls back to read-only. */
+   can't place, it refuses (returns null) and the page falls back to read-only.
+   Reach for a real parser only when hand-written .mmd files start hitting that
+   refusal. */
 (function (root, factory) {
   var api = factory();
   if (typeof module === "object" && module.exports) { module.exports = api; }

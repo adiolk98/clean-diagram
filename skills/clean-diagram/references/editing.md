@@ -13,12 +13,6 @@ was drawn from, and edits rewrite that source and re-render.
 | Get the source back | `匯出` — copies the Mermaid text to the clipboard |
 | Start over | `重設佈局` — drops both the layout and the edits |
 
-Everything lives in `localStorage`, per browser, per page title. Nothing is
-written back to disk: to keep an edit, `匯出` and paste it into the `.mmd`.
-
-Two things the page deliberately can't do: set a node's role (`entry` / `store` /
-`external` / `optional`) and edit the second technical line of a label. Both stay
-in the `.mmd`, which is where the diagram's meaning belongs.
-
-Mention the first four rows to the user when you hand over the file — most people
-assume it's a static export.
+- State lives in `localStorage`, per browser, per page title. Nothing reaches disk — to keep an edit, `匯出` and paste it into the `.mmd`.
+- Not editable in the page: a node's role (`entry` / `store` / `external` / `optional`) and a label's second technical line. Both stay in the `.mmd`, where the diagram's meaning belongs.
+- When you hand over the file, mention the first four rows — most people assume it's a static export.

@@ -29,9 +29,8 @@ worth a second look. No diagram-type menu, no validation passes, no branding ste
    a missing retry, an undocumented coupling, a store with no migration path, a
    module nothing imports. No filler, no "consider adding tests" boilerplate. Skip
    the file entirely if the code gave you nothing.
-6. **Write the plain view** when the user wants something to show other people
-   (or says 給別人看 / 對外說明 / 老闆 / 客戶) — 4–6 jargon-free nodes plus a short
-   explanation. Rules: `references/plain-view.md`.
+6. **Write the plain view** when the user wants something to show other people.
+   Triggers and rules: `references/plain-view.md`.
 7. **Render**:
    ```
    python3 scripts/render.py <engineer.mmd> <output.html> \
@@ -42,9 +41,8 @@ worth a second look. No diagram-type menu, no validation passes, no branding ste
    user the path; never paste the HTML/SVG back into chat.
 8. **Report what you cut**, in two or three lines after the path: source node count →
    drawn, what merged, what was dropped. The reader of the diagram can't see what's
-   missing; the person who asked can. Then one line saying the page is editable —
-   drag, double-click to rename, `新增` / `連線` to extend, `匯出` to get the Mermaid
-   source back. Details: `references/editing.md`.
+   missing; the person who asked can. Then one line saying the page is editable,
+   and what to mention: `references/editing.md`.
 
 ## Mermaid grammar this skill expects
 
@@ -91,5 +89,4 @@ The page's own files: `assets/template.html` (skeleton), `assets/diagram.css`
 ## What this skill deliberately does not do
 
 Sequence/ER/timeline/chart types, brand color extraction, drawio import, before/after
-validation, PNG/SVG export. If the user wants one of those, say so plainly and do it
-ad hoc — don't grow this skill to cover it.
+validation, PNG/SVG export. Say so plainly and do it ad hoc — don't grow this skill.

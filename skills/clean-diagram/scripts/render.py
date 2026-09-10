@@ -1,16 +1,5 @@
 #!/usr/bin/env python3
-"""Render Mermaid definitions into one self-contained HTML architecture map.
-
-Usage:
-    python3 render.py <engineer.mmd> <output.html> --title "Title" [options]
-
-Options:
-    --subtitle TEXT     one-line description under the title
-    --scope TEXT        what was mapped, e.g. "whole repo" / "src/payments"
-    --notes FILE        one note per line: "Title :: what to look at"
-    --plain FILE        second Mermaid file — the diagram for non-engineers
-    --explain FILE      ELI5 text for the plain view; blank line = new paragraph
-"""
+"""Render Mermaid definitions into one self-contained HTML architecture map."""
 import argparse
 import html
 import pathlib
@@ -86,21 +75,22 @@ def build_plain(plain_file, explain_file):
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("mermaid_file")
-    parser.add_argument("output_html")
-    parser.add_argument("--title", default="Architecture Diagram")
-    parser.add_argument("--subtitle", default="")
-    parser.add_argument("--scope", default="generated · read-only")
-    parser.add_argument("--notes")
-    parser.add_argument("--plain")
-    parser.add_argument("--explain")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("mermaid_file", help="the engineer diagram, Mermaid flowchart")
+    parser.add_argument("output_html", help="where to write the self-contained page")
+    parser.add_argument("--title", default="Architecture Diagram", help="system name in the header")
+    parser.add_argument("--subtitle", default="", help="one-line description under the title")
+    parser.add_argument("--scope", default="generated · read-only",
+                        help='what was mapped, e.g. "whole repo" / "src/payments"')
+    parser.add_argument("--notes", help='one note per line: "Title :: what to look at"')
+    parser.add_argument("--plain", help="second Mermaid file — the diagram for non-engineers")
+    parser.add_argument("--explain", help="ELI5 text for the plain view; blank line = new paragraph")
     args = parser.parse_args()
 
     plain_view, view_switch = build_plain(args.plain, args.explain)
 
     html_out = (
-        (SKILL_DIR / "assets" / "template.html").read_text()
+        asset("template.html")
         .replace("__EDITORIAL_CSS__", asset("editorial-dark.css"))
         .replace("__DIAGRAM_CSS__", asset("diagram.css"))
         .replace("__MERMAID_JS__", asset("mermaid.min.js"))
