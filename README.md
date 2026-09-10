@@ -1,4 +1,4 @@
-# Clean Diagram
+<h1 align="center">Clean Diagram</h1>
 
 <p align="center">
   <img src="docs/mark.gif" alt="clean-diagram" width="170">
