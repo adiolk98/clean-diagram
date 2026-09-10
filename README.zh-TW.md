@@ -1,10 +1,19 @@
-# clean-diagram
+<p align="center">
+  <img src="docs/logo.gif" alt="clean-diagram" width="440">
+</p>
 
-[English](README.md) · 繁體中文
+<p align="center">
+  <b>可以編輯的 html 架構圖</b><br>
+  方便與 agent 合作
+</p>
 
-**可以編輯的html**
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="license MIT"></a>
+</p>
 
-**方便與agent合作**
+<p align="center">
+  <a href="README.md">🇬🇧</a> · 🇹🇼
+</p>
 
 ![工程視角](docs/engineer.png)
 
@@ -94,6 +103,10 @@ class Feat,Emb store
 `assets/diagram-src.js` 是純粹的 Mermaid 文字改寫,`assets/diagram.js` 是拖曳/編輯/匯出的行為,
 `render.py` 把它們全部內嵌成一個檔案。
 
+## 參與
+
+見 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
 ## License
 
-MIT。內嵌的 Mermaid 亦為 MIT,見 [THIRD_PARTY.md](THIRD_PARTY.md)。
+MIT,見 [LICENSE](LICENSE)。內嵌的 Mermaid 亦為 MIT,見 [THIRD_PARTY.md](THIRD_PARTY.md)。

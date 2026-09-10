@@ -1,10 +1,19 @@
-# clean-diagram
+<p align="center">
+  <img src="docs/logo.gif" alt="clean-diagram" width="440">
+</p>
 
-English · [繁體中文](README.zh-TW.md)
+<p align="center">
+  <b>Editable html architecture with agent.</b><br>
+  Built for software architecture. Easy work with agent.
+</p>
 
-**Editable html architecture with agent.**
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="license MIT"></a>
+</p>
 
-**Built for software architecture. Easy work with agent**
+<p align="center">
+  🇬🇧 · <a href="README.zh-TW.md">🇹🇼</a>
+</p>
 
 ![engineer view](docs/engineer.png)
 
@@ -99,6 +108,10 @@ diagram and editing styles, `assets/diagram-src.js` the (pure) Mermaid text
 surgery, `assets/diagram.js` the drag/edit/export behaviour. `render.py` inlines
 all of them into one file.
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## License
 
-MIT. The inlined Mermaid is MIT too — see [THIRD_PARTY.md](THIRD_PARTY.md).
+MIT — see [LICENSE](LICENSE). The inlined Mermaid is MIT too — see [THIRD_PARTY.md](THIRD_PARTY.md).
