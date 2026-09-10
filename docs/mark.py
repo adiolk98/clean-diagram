@@ -7,9 +7,9 @@ the edge twice. Icon only — the wordmark lives in docs/logo.gif below it.
 Palette from skills/clean-diagram/assets/editorial-dark.css.
 """
 import math, os, subprocess, tempfile
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
-W = H = 200
+W, H = 200, 216
 SS = 4                      # supersample
 FPS, DUR = 25, 3.0
 
@@ -17,10 +17,11 @@ BG     = (10, 10, 11)
 FG     = (243, 242, 239)
 SUB    = (151, 150, 143)
 ACCENT = (193, 68, 44)
-LINE   = (243, 242, 239, 40)
+WORD   = "clean-diagram"
+MONO   = "/System/Library/Fonts/Menlo.ttc"
 
 # art is authored in the 120x120 viewBox of the proposal sheet
-S, OX, OY = 1.5, 31 - 14 * 1.5, 50 - 22 * 1.5
+S, OX, OY = 1.5, 31 - 14 * 1.5, 32 - 22 * 1.5
 
 
 def m(x, y): return (OX + x * S, OY + y * S)
@@ -113,6 +114,7 @@ EDGE = elbow_pts([(40, 52), (40, 74), (53, 74)])
 T_A, T_B, T_E, T_ARROW = 0, 180, 420, 900
 T_DRAW = 550
 DOT = [(1000, 800), (1850, 800)]     # start, duration — two runs
+T_WORD = 1150
 T_FADE = 2700
 
 
@@ -129,10 +131,7 @@ def blend(base, lay, a):
 
 
 def background():
-    img = Image.new("RGBA", (W * SS, H * SS), BG + (255,))
-    d = ImageDraw.Draw(img)
-    d.rectangle([SS // 2, SS // 2, W * SS - SS, H * SS - SS], outline=LINE, width=SS)
-    return img
+    return Image.new("RGBA", (W * SS, H * SS), BG + (255,))
 
 
 def frame_at(ms, bg):
@@ -162,6 +161,22 @@ def frame_at(ms, bg):
             fade = min(1, t / .12, (1 - t) / .12)
             d.ellipse([x * SS - r, y * SS - r, x * SS + r, y * SS + r],
                       fill=ACCENT + (int(255 * fade),))
+
+    wt = seg(ms, T_WORD, 450)
+    if wt > 0:
+        wl = new()
+        wd = ImageDraw.Draw(wl)
+        f = ImageFont.truetype(MONO, 13 * SS, index=1)
+        track = 1.4 * SS
+        wid = sum(wd.textlength(c, font=f) + track for c in WORD) - track
+        x0 = (W * SS - wid) / 2
+        x, y = x0, (163 - 5 * (1 - ease_out(wt))) * SS
+        for c in WORD:
+            wd.text((x, y), c, font=f, fill=FG + (255,))
+            x += wd.textlength(c, font=f) + track
+        uw = wid * ease_out(seg(ms, T_WORD + 100, 450))
+        wd.rectangle([x0, y + 19 * SS, x0 + uw, y + 19 * SS + 1.5 * SS], fill=ACCENT + (255,))
+        lay = blend(lay, wl, wt)
 
     out = blend(bg, lay, 1 - seg(ms, T_FADE, DUR * 1000 - T_FADE))
     return out.convert("RGB").resize((W, H), Image.LANCZOS)

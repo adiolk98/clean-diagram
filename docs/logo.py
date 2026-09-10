@@ -131,10 +131,7 @@ def background():
         for gy in range(12, H, 16):
             dd.ellipse(px(gx, gy, gx + 1.0, gy + 1.0), fill=FG + (38,))
     img = blend(img, dots, 1.0)
-    frame = new_layer()
-    ImageDraw.Draw(frame).rounded_rectangle(
-        px(0.5, 0.5, W - 0.5, H - 0.5), radius=10 * SS, outline=LINE, width=SS)
-    return Image.alpha_composite(img, frame)
+    return img
 
 
 def frame_at(ms, bg):

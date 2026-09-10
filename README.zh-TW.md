@@ -1,5 +1,7 @@
+# Clean Diagram
+
 <p align="center">
-  <img src="docs/mark.gif" alt="clean-diagram" width="150">
+  <img src="docs/mark.gif" alt="clean-diagram" width="170">
 </p>
 
 <p align="center">
