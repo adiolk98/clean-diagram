@@ -1,35 +1,37 @@
 # clean-diagram
 
-[![stars](https://img.shields.io/github/stars/adiolk98/clean-diagram?style=flat&labelColor=0a0a0b&color=c1442c)](https://github.com/adiolk98/clean-diagram/stargazers)
-[![license](https://img.shields.io/github/license/adiolk98/clean-diagram?style=flat&labelColor=0a0a0b&color=97968f)](LICENSE)
-
 English · [繁體中文](README.zh-TW.md)
 
-Turn a codebase into one architecture map — one HTML page, two views, plus a short
-list of things worth a second look.
+**Editable html architecture with agent.**
 
-Built for software architecture only. No 39-type diagram menu, no validation pass,
-no brand-color extraction.
+**Built for software architecture. Easy work with agent**
 
 ![engineer view](docs/engineer.png)
 
 ## What you get
 
-**1. Engineer view** — modules, dependencies, data flow. Four node roles: entry
-(cinnabar), store (cylinder), external (dashed), async (dashed + dim). The second
-line holds language, protocol, port.
+**1. Engineer view** — modules, dependencies, data flow. The second line holds language, protocol, port.
 
-**2. Plain view** — the same system in 4–6 everyday nouns, plus a short write-up
-anyone can read. Toggle sits under the title.
+**2. Worth a look**
 
-![plain view](docs/plain.png)
+## The page is editable
 
-**3. Worth a look** — gaps found while reading the code: an external call with no
-retry, a module nothing imports, a cache with no TTL. Nothing found, no section.
+Carries the Mermaid source it was drawn from, so a
+diagram that came out 90% right can be finished by hand instead of re-prompted.
 
-## Nodes are draggable
+![edit the diagram](docs/edit.gif)
 
-Drag any node, edges re-route, layout is saved in your browser (`重設佈局` resets it).
+| | |
+|---|---|
+| Move | drag a node; edges re-route |
+| Rename | double-click the label, type, Enter |
+| Add / connect | `新增` puts a node down · `連線` clicks two nodes into an edge |
+| Delete | select a node or an edge, then Delete |
+| Take it back | `匯出` copies the Mermaid source to your clipboard |
+| Start over | `重設佈局` drops both the layout and the edits |
+
+Edits live save in yout browser, you can `匯出` and paste into
+the `.mmd` to keep them.
 
 ![drag nodes](docs/drag.gif)
 
@@ -42,8 +44,6 @@ Claude Code:
 /plugin install clean-diagram
 ```
 
-Other agents — the skill is a plain folder, so copy it where your tool looks for skills:
-
 | Harness | Where |
 |---|---|
 | Cursor | `cp -r skills/clean-diagram ~/.cursor/skills/` (project: `.cursor/skills/`) |
@@ -53,7 +53,7 @@ Other agents — the skill is a plain folder, so copy it where your tool looks f
 
 ## Use
 
-Just ask:
+ask:
 
 ```
 draw the architecture of this repo
@@ -65,9 +65,9 @@ If the scope is unclear it asks one question, then hands you an HTML file path.
 Mermaid is inlined — the file opens offline, no CDN.
 
 Example output: [`examples/netflix-recs.html`](examples/netflix-recs.html) — a
-Netflix-style recommendation path.
+I use Netflix recommendation for this.
 
-## Running the renderer directly
+## Running directly
 
 Works without an agent:
 
@@ -94,13 +94,10 @@ class Feat,Emb store
 The page stylesheet does the painting — `classDef` values are ignored, so no hex
 codes get pasted into every diagram.
 
-Tests: `python3 skills/clean-diagram/scripts/test_render.py`
-
-## Style
-
-Editorial dark: near-black canvas, one cinnabar accent, hairline strokes, serif
-headings + mono labels + sans body. No shadows, no gradients, no legend on the
-canvas. Nodes fade in on load and highlight on hover. Motion stays restrained.
+Layout: `assets/template.html` is the page skeleton, `assets/diagram.css` the
+diagram and editing styles, `assets/diagram-src.js` the (pure) Mermaid text
+surgery, `assets/diagram.js` the drag/edit/export behaviour. `render.py` inlines
+all of them into one file.
 
 ## License
 

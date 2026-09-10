@@ -1,0 +1,102 @@
+/* --- diagram-specific overrides, same tokens --- */
+.diagram-canvas { padding: 24px 4px 4px; overflow: auto; }
+.diagram-canvas svg { max-width: none; overflow: visible; }
+g.node { cursor: grab; }
+g.node.is-dragging { cursor: grabbing; }
+
+.node rect, .node polygon, .node circle {
+  fill: var(--bg-1) !important;
+  stroke: var(--line-strong) !important;
+  stroke-width: 1px !important;
+  transition: stroke .15s var(--ease-out), stroke-width .15s var(--ease-out);
+}
+/* semantic node roles — apply with `class NodeId <role>` in the Mermaid source */
+.node.entry rect, .node.entry polygon {
+  fill: var(--accent-soft) !important;
+  stroke: var(--accent) !important;
+  stroke-width: 1.5px !important;
+}
+.node.store rect, .node.store polygon, .node.store circle {
+  fill: var(--bg-2) !important;
+  stroke: var(--sub) !important;
+}
+.node.external rect, .node.external polygon {
+  fill: var(--bg-1) !important;
+  stroke: var(--line-strong) !important;
+  stroke-dasharray: 4 3 !important;
+}
+.node.optional rect, .node.optional polygon {
+  stroke-dasharray: 3 2 !important;
+  opacity: .75;
+}
+.node:hover rect, .node:hover polygon, .node:hover circle {
+  stroke: var(--accent) !important;
+  stroke-width: 1.5px !important;
+}
+/* mermaid wraps labels in .label, which the design system styles as a mono
+   uppercase field label — reset that inside the diagram only */
+.nodeLabel, .edgeLabel, .node .label, .edgeLabel .label {
+  font-family: var(--sans) !important;
+  font-size: 13px !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  color: var(--fg) !important;
+  margin-bottom: 0 !important;
+}
+.nodeLabel .sublabel {
+  display: block;
+  font-family: var(--mono) !important;
+  font-size: 9.5px !important;
+  letter-spacing: .04em !important;
+  color: var(--sub) !important;
+  margin-top: 2px;
+}
+.edgeLabel, .edgeLabel .label {
+  background-color: var(--bg-1) !important;
+  color: var(--sub) !important;
+  font-family: var(--mono) !important;
+  font-size: 10px !important;
+  letter-spacing: .04em !important;
+}
+.edgePath path, path.flowchart-link { stroke: var(--sub) !important; stroke-width: 1px !important; }
+.cluster rect { stroke: var(--line) !important; fill: transparent !important; }
+.cluster .cluster-label span, .cluster .cluster-label p {
+  font-family: var(--mono) !important;
+  font-size: 10.5px !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  color: var(--sub) !important;
+}
+
+.panel-actions { display: flex; align-items: center; gap: 12px; }
+#notes-panel .row-title { font-size: 15px; }
+#notes-panel .row .body { margin: 4px 0 0; }
+.explain p { max-width: 60ch; }
+.view-switch { max-width: 340px; margin-top: 20px; }
+
+/* --- editing --- */
+.node.is-selected rect, .node.is-selected polygon, .node.is-selected circle, .node.is-selected path {
+  stroke: var(--accent) !important;
+  stroke-width: 1.5px !important;
+}
+.edge-hit { stroke: transparent !important; stroke-width: 16px !important; fill: none; cursor: pointer; }
+path.is-selected { stroke: var(--accent) !important; stroke-width: 2px !important; }
+.diagram-panel.is-connecting g.node { cursor: crosshair; }
+.diagram-panel.is-connecting .nodeLabel { pointer-events: none; }
+.node.is-source rect, .node.is-source polygon { stroke: var(--accent) !important; stroke-dasharray: 4 3 !important; }
+.edit-main[contenteditable] {
+  outline: 1px solid var(--accent);
+  outline-offset: 3px;
+  cursor: text;
+  min-width: 40px;
+}
+.export-drawer { margin-top: 16px; }
+.export-drawer textarea {
+  width: 100%;
+  min-height: 220px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.6;
+  white-space: pre;
+  resize: vertical;
+}

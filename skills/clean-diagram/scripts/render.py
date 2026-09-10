@@ -22,6 +22,10 @@ def read(path):
     return pathlib.Path(path).read_text() if path else ""
 
 
+def asset(name):
+    return (SKILL_DIR / "assets" / name).read_text()
+
+
 def build_notes(notes_file):
     if not notes_file:
         return ""
@@ -62,7 +66,7 @@ def build_plain(plain_file, explain_file):
         '<button class="btn btn-quiet btn-sm" data-reset="panel-plain" type="button">重設佈局</button>'
         '</span></div>'
         '<div class="diagram-canvas"><pre class="mermaid">\n__PLAIN_DEF__\n</pre></div>'
-        '<p class="meta" style="margin: 12px 0 0;">DRAG NODES TO REARRANGE</p>'
+        '<p class="meta" style="margin: 12px 0 0;">DRAG TO MOVE · DOUBLE-CLICK TO EDIT</p>'
         '</section>'
         + (
             '<section class="panel explain" style="margin-bottom: 48px;">'
@@ -97,8 +101,11 @@ def main():
 
     html_out = (
         (SKILL_DIR / "assets" / "template.html").read_text()
-        .replace("__EDITORIAL_CSS__", (SKILL_DIR / "assets" / "editorial-dark.css").read_text())
-        .replace("__MERMAID_JS__", (SKILL_DIR / "assets" / "mermaid.min.js").read_text())
+        .replace("__EDITORIAL_CSS__", asset("editorial-dark.css"))
+        .replace("__DIAGRAM_CSS__", asset("diagram.css"))
+        .replace("__MERMAID_JS__", asset("mermaid.min.js"))
+        .replace("__SRC_JS__", asset("diagram-src.js"))
+        .replace("__APP_JS__", asset("diagram.js"))
         .replace("__MERMAID_DEF__", read(args.mermaid_file))
         .replace("__TITLE__", html.escape(args.title))
         .replace("__SUBTITLE__", html.escape(args.subtitle))

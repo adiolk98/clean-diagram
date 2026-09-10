@@ -1,32 +1,36 @@
 # clean-diagram
 
-[![stars](https://img.shields.io/github/stars/adiolk98/clean-diagram?style=flat&labelColor=0a0a0b&color=c1442c)](https://github.com/adiolk98/clean-diagram/stargazers)
-[![license](https://img.shields.io/github/license/adiolk98/clean-diagram?style=flat&labelColor=0a0a0b&color=97968f)](LICENSE)
-
 [English](README.md) · 繁體中文
 
-把一個 codebase 變成一張架構圖 — 一個頁面,兩種視角,外加一份「值得看一下」的清單。
+**可以編輯的html**
 
-給軟體工程用。不做 39 種圖型選單,不做驗證流程,不做品牌色抽取。
+**方便與agent合作**
 
 ![工程視角](docs/engineer.png)
 
 ## 三件事
 
-**1. 工程視角** — 模組、依賴、資料流。節點分四種角色:入口(朱紅)、資料儲存(圓柱)、
-外部服務(虛線)、非同步(虛線淡化)。第二行 mono 小字放語言、協定、port。
+**1. 工程視角** — 模組、依賴、資料流。第二行 mono 小字放語言、協定、port。
 
-**2. 說明視角** — 同一個系統,換成 4–6 個白話節點,附一段誰都看得懂的說明,
-拿去給非工程的人看。切換在標題下方。
+**2. Worth a look**
 
-![說明視角](docs/plain.png)
+## 這個頁面可以直接編輯
+ 
+包含 Mermaid
+可以直接在頁面上補完,不用re-prompt
 
-**3. Worth a look** — 讀 code 時發現的缺口:沒有 retry 的外部呼叫、沒人 import 的模組、
-沒有 TTL 的快取。沒發現就不會有這一段。
+![編輯圖](docs/edit.gif)
 
-## 節點可以直接拖
+| | |
+|---|---|
+| 移動 | 拖節點,連線跟著重算 |
+| 改名 | 對標籤點兩下,打字,Enter |
+| 新增 / 連線 | `新增` 放一個節點 · `連線` 點兩個節點畫一條線 |
+| 刪除 | 選一個節點或一條線,按 Delete |
+| 拿回原始碼 | `匯出` 把 Mermaid 複製到剪貼簿 |
+| 重來 | `重設佈局` 同時清掉佈局和編輯 |
 
-擺不順眼就用滑鼠拖,連線跟著重算,佈局存在瀏覽器裡(`重設佈局` 還原)。
+存在瀏覽器裡，可以用 `匯出` 貼回 `.mmd`。
 
 ![拖曳節點](docs/drag.gif)
 
@@ -39,8 +43,6 @@ Claude Code:
 /plugin install clean-diagram
 ```
 
-其他 agent — skill 就是一個資料夾,複製到工具讀 skill 的位置即可:
-
 | Harness | 放哪裡 |
 |---|---|
 | Cursor | `cp -r skills/clean-diagram ~/.cursor/skills/`(專案內用 `.cursor/skills/`) |
@@ -50,7 +52,7 @@ Claude Code:
 
 ## 使用
 
-跟 agent 說一句就好:
+prompt:
 
 ```
 幫我畫這個 repo 的架構圖
@@ -61,7 +63,7 @@ Claude Code:
 範圍不確定時它會先問一句,然後給你一個 HTML 檔路徑。
 Mermaid 是內嵌的,檔案離線可開、不需要 CDN。
 
-範例輸出:[`examples/netflix-recs.html`](examples/netflix-recs.html) — 一條 Netflix 式的推薦流程。
+範例輸出:[`examples/netflix-recs.html`](examples/netflix-recs.html)
 
 ## 直接跑 renderer
 
@@ -88,12 +90,9 @@ class Feat,Emb store
 
 樣式由頁面的 stylesheet 決定,`classDef` 的值不會被使用 — 每張圖不用重複貼 hex。
 
-測試:`python3 skills/clean-diagram/scripts/test_render.py`
-
-## 風格
-
-Editorial dark:近黑底、單一朱紅強調色、細線框、serif 標題 + mono 標籤 + sans 內文。
-沒有陰影、沒有漸層、圖上沒有圖例。節點載入時淡入,hover 時亮起,動態克制。
+檔案分工:`assets/template.html` 是頁面骨架,`assets/diagram.css` 是圖和編輯的樣式,
+`assets/diagram-src.js` 是純粹的 Mermaid 文字改寫,`assets/diagram.js` 是拖曳/編輯/匯出的行為,
+`render.py` 把它們全部內嵌成一個檔案。
 
 ## License
 

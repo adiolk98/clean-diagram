@@ -26,6 +26,7 @@ with tempfile.TemporaryDirectory() as d:
     assert 'id="notes-panel"' not in minimal, "notes panel rendered without --notes"
     assert 'id="view-plain"' not in minimal, "plain view rendered without --plain"
     assert "mermaid" in minimal and "flowchart LR" in minimal
+    assert "DiagramSrc" in minimal and "edit-main" in minimal, "diagram.js / diagram.css not inlined"
 
     (tmp / "notes.txt").write_text("No retries :: Stripe calls have no fallback.\n\n")
     (tmp / "plain.mmd").write_text("flowchart LR\n  U[User] --> S[Site]\n")

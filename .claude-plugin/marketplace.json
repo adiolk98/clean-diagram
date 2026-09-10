@@ -1,7 +1,7 @@
 {
   "name": "clean-diagram",
   "metadata": {
-    "description": "Turn a codebase into one clean architecture map: an engineer view, a plain-language view for everyone else, and a short list of gaps worth a look. Self-contained HTML, draggable nodes, editorial dark styling."
+    "description": "Turn a codebase into one clean architecture map: an engineer view, a plain-language view for everyone else, and a short list of gaps worth a look. Self-contained HTML you can edit in place — drag, rename, connect, export the Mermaid back out."
   },
   "owner": {
     "name": "adiolk98"

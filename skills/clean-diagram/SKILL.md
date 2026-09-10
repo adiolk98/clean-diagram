@@ -1,6 +1,6 @@
 ---
 name: clean-diagram
-description: Generate a clean, self-contained HTML architecture map from a codebase — an engineer view, an optional plain-language view for non-engineers, and a short list of gaps worth a look. Nodes are draggable in the page. Use when the user asks for an architecture diagram, system diagram, module map, or "explain how this codebase is structured" — not for UI mockups or chart/data visualization.
+description: Generate a clean, self-contained HTML architecture map from a codebase — an engineer view, an optional plain-language view for non-engineers, and a short list of gaps worth a look. In the page, nodes can be dragged, renamed, added, connected and deleted, and the Mermaid source exported back out. Use when the user asks for an architecture diagram, system diagram, module map, or "explain how this codebase is structured" — not for UI mockups or chart/data visualization.
 ---
 
 # Clean Diagram
@@ -30,8 +30,8 @@ worth a second look. No diagram-type menu, no validation passes, no branding ste
    module nothing imports. No filler, no "consider adding tests" boilerplate. Skip
    the file entirely if the code gave you nothing.
 6. **Write the plain view** when the user wants something to show other people
-   (or says 給別人看 / 對外說明 / 老闆 / 客戶). 4–6 nodes, no jargon in the labels,
-   plus an ELI5 explanation — see below.
+   (or says 給別人看 / 對外說明 / 老闆 / 客戶) — 4–6 jargon-free nodes plus a short
+   explanation. Rules: `references/plain-view.md`.
 7. **Render**:
    ```
    python3 scripts/render.py <engineer.mmd> <output.html> \
@@ -42,7 +42,9 @@ worth a second look. No diagram-type menu, no validation passes, no branding ste
    user the path; never paste the HTML/SVG back into chat.
 8. **Report what you cut**, in two or three lines after the path: source node count →
    drawn, what merged, what was dropped. The reader of the diagram can't see what's
-   missing; the person who asked can.
+   missing; the person who asked can. Then one line saying the page is editable —
+   drag, double-click to rename, `新增` / `連線` to extend, `匯出` to get the Mermaid
+   source back. Details: `references/editing.md`.
 
 ## Mermaid grammar this skill expects
 
@@ -75,24 +77,16 @@ flowchart LR
 - **Subgraphs** are layers or trust boundaries (CLIENT / SERVICE / DATA), uppercase,
   one word or two. Group by tier, not by folder, when the two disagree.
 
-## The plain view (`--plain` + `--explain`)
-
-A second diagram for people who don't read code, behind a toggle in the same page.
-
-- 4–6 nodes, everyday nouns (`使用者`, `網站`, `資料倉庫`, `付款公司`) — no service
-  names, no protocols, no sublabels, at most one `entry` accent.
-- `--explain` is the ELI5 text: **two or three short paragraphs, one real-world
-  analogy carried through**, plain sentences a 5-year-old's parent would use. No
-  jargon, no acronyms, no bullet lists, no "簡而言之". Blank line = new paragraph.
-- Write it in the user's language (default 繁體中文 when the conversation is Chinese).
-
 ## Style rules (baked into the template — don't override)
 
 Editorial dark: near-black canvas, one cinnabar accent, hairline strokes, serif
 headings + mono labels + sans node text. No shadows, no gradients, no legend inside
-the canvas, no icons. Nodes fade in staggered on load and highlight on hover; nodes
-are draggable and the layout is saved per browser. Motion stays restrained — nothing
-loops, nothing bounces.
+the canvas, no icons. Nodes fade in staggered on load and highlight on hover. Motion
+stays restrained — nothing loops, nothing bounces.
+
+The page's own files: `assets/template.html` (skeleton), `assets/diagram.css`
+(diagram + editing styles), `assets/diagram-src.js` (Mermaid text surgery, pure),
+`assets/diagram.js` (drag, edit, export). `scripts/render.py` inlines all of them.
 
 ## What this skill deliberately does not do
 
