@@ -9,8 +9,9 @@
 </p>
 
 <p align="center">
-  <b>可以編輯的 html 架構圖</b><br>
-  方便與 agent 合作
+  <b>AI 畫的架構圖 90% 對，<br>
+  剩下 10% 不用重新 prompt，直接用手改。</b><br>
+  可以編輯的 HTML 架構圖 — agent 畫，你收尾。
 </p>
 
 <p align="center">

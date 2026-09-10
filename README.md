@@ -9,8 +9,9 @@
 </p>
 
 <p align="center">
-  <b>Editable html architecture with agent.</b><br>
-  Built for software architecture. Easy work with agent.
+  <b>Your agent draws the architecture 90% right.<br>
+  Fix the last 10% by hand instead of re-prompting.</b><br>
+  Editable HTML architecture diagrams — the agent draws, you finish.
 </p>
 
 <p align="center">
@@ -31,8 +32,8 @@
 
 ## The page is editable
 
-Carries the Mermaid source it was drawn from, so a
-diagram that came out 90% right can be finished by hand instead of re-prompted.
+The page carries the Mermaid source it was drawn from, so every fix you make
+by hand can be handed straight back as text.
 
 ![edit the diagram](docs/edit.gif)
 
