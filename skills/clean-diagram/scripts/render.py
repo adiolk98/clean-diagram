@@ -50,16 +50,16 @@ def build_plain(plain_file, explain_file):
     view = (
         '<section id="view-plain" style="margin-top: 24px;">'
         '<section class="panel diagram-panel" id="panel-plain" style="margin-bottom: 2px;">'
-        '<div class="panel-head"><h3>怎麼運作的</h3>'
+        '<div class="panel-head"><h3>How it works</h3>'
         '<span class="panel-actions"><span class="meta">FOR EVERYONE</span>'
-        '<button class="btn btn-quiet btn-sm" data-reset="panel-plain" type="button">重設佈局</button>'
+        '<button class="btn btn-quiet btn-sm" data-reset="panel-plain" type="button">Reset layout</button>'
         '</span></div>'
         '<div class="diagram-canvas"><pre class="mermaid">\n__PLAIN_DEF__\n</pre></div>'
         '<p class="meta" style="margin: 12px 0 0;">DRAG TO MOVE · DOUBLE-CLICK TO EDIT</p>'
         '</section>'
         + (
             '<section class="panel explain" style="margin-bottom: 48px;">'
-            '<div class="panel-head"><h3>白話說明</h3><span class="meta">PLAIN LANGUAGE</span></div>'
+            '<div class="panel-head"><h3>In plain words</h3><span class="meta">PLAIN LANGUAGE</span></div>'
             f'{paragraphs}</section>' if paragraphs else ""
         )
         + '</section>'
@@ -67,8 +67,8 @@ def build_plain(plain_file, explain_file):
 
     switch = (
         '<div class="seg view-switch">'
-        '<button type="button" data-view="engineer" class="is-on">工程視角</button>'
-        '<button type="button" data-view="plain">說明視角</button>'
+        '<button type="button" data-view="engineer" class="is-on">Engineer</button>'
+        '<button type="button" data-view="plain">Plain</button>'
         '</div>'
     )
     return view, switch

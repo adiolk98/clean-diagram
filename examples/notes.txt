@@ -1,3 +1,3 @@
-Ranker 沒有降級路徑 :: 模型服務逾時的時候 API 直接回錯誤,沒有退回熱門排行這種便宜的備案。
-Feature Store 沒有設 TTL :: 使用者幾週沒回來,取到的仍是舊特徵,冷啟動和回訪看起來一樣。
-曝光事件是 fire-and-forget :: 客戶端寫進 Kafka 沒有重送,網路不穩時訓練資料會缺一段,而且缺得很安靜。
+Ranker has no fallback :: when the model server times out the API just errors — there is no cheap path back to a popularity list.
+Feature Store has no TTL :: come back after a few weeks and you still get stale features, so a cold start and a returning viewer look the same.
+Impressions are fire-and-forget :: the client writes to Kafka with no retry, so a flaky network quietly drops a slice of the training data.

@@ -1,5 +1,5 @@
-想像一間很大的影音出租店,架上有幾萬片。店員記得你上次租了什麼、哪一片你看十分鐘就放回去,所以你一進門,他已經先挑好一車推到你面前。
+Picture a very large video rental store, tens of thousands of discs on the shelves. The clerk remembers what you took home last time, and which one you gave up on ten minutes in, so by the time you walk in there is already a cart waiting for you.
 
-這個系統做的就是店員的事。它先從幾萬片裡挑出幾百片你可能喜歡的,再排出先後順序,最後變成首頁上那幾排片子。
+This system does the clerk's job. It narrows tens of thousands of titles down to a few hundred you might like, puts those in order, and turns them into the rows on your home screen.
 
-你每次點開或滑過,都會回頭告訴它一聲,它晚上再把這些記起來,隔天挑得準一點。
+Every time you click one or scroll past one, it reports back. Overnight it takes all of that in, and picks a little better tomorrow.

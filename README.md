@@ -40,12 +40,12 @@ diagram that came out 90% right can be finished by hand instead of re-prompted.
 |---|---|
 | Move | drag a node; edges re-route |
 | Rename | double-click the label, type, Enter |
-| Add / connect | `新增` puts a node down · `連線` clicks two nodes into an edge |
+| Add / connect | `Add` puts a node down · `Connect` clicks two nodes into an edge |
 | Delete | select a node or an edge, then Delete |
-| Take it back | `匯出` copies the Mermaid source to your clipboard |
-| Start over | `重設佈局` drops both the layout and the edits |
+| Take it back | `Export` copies the Mermaid source to your clipboard |
+| Start over | `Reset layout` drops both the layout and the edits |
 
-Edits live save in yout browser, you can `匯出` and paste into
+Edits are saved live in your browser. Use `Export` and paste into
 the `.mmd` to keep them.
 
 ![drag nodes](docs/drag.gif)
@@ -79,7 +79,7 @@ draw one, and one I can show my boss
 If the scope is unclear it asks one question, then hands you an HTML file path.
 Mermaid is inlined — the file opens offline, no CDN.
 
-Example output: [`examples/streaming-recs.html`](examples/streaming-recs.html) — a
+Example output: [`examples/streaming-recs.html`](examples/streaming-recs.html) —
 a streaming recommendation path, made up for the demo.
 
 ## Running directly

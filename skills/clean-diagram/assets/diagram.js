@@ -1,7 +1,7 @@
 /* Page behaviour: drag the layout, edit the graph, export the source back out.
    Source of truth is the Mermaid text held on each panel (`panel.__src`); every
    edit rewrites that text (DiagramSrc) and re-renders. Nothing is written back
-   to disk — `匯出` hands the text back so you can paste it into the .mmd. */
+   to disk — `Export` hands the text back so you can paste it into the .mmd. */
 (function () {
   "use strict";
   var S = window.DiagramSrc;
@@ -372,14 +372,14 @@
     actions.dataset.tools = "1";
     var reset = actions.querySelector("[data-reset]");
 
-    var add = button("新增", "加一個節點,接著直接打字");
+    var add = button("Add", "drop a node, then just type");
     add.addEventListener("click", function () {
       var id = S.newId(panel.__src, "N");
       panel.__focusId = id;
-      apply(panel, S.addNode(panel.__src, id, "新節點"), true);
+      apply(panel, S.addNode(panel.__src, id, "New node"), true);
     });
 
-    var connect = button("連線", "點起點,再點終點");
+    var connect = button("Connect", "click the start, then the end");
     panel.__connectBtn = connect;
     connect.addEventListener("click", function () {
       panel.__connect = !panel.__connect;
@@ -404,7 +404,7 @@
     drawer.appendChild(hint);
     panel.appendChild(drawer);
 
-    var exportBtn = button("匯出", "把目前這張圖的 Mermaid 原始碼拿回去");
+    var exportBtn = button("Export", "copy this diagram's Mermaid source");
     exportBtn.addEventListener("click", function () {
       drawer.hidden = !drawer.hidden;
       if (drawer.hidden) { return; }
@@ -412,8 +412,8 @@
       area.select();
       if (navigator.clipboard) {
         navigator.clipboard.writeText(area.value).then(function () {
-          exportBtn.textContent = "已複製";
-          setTimeout(function () { exportBtn.textContent = "匯出"; }, 1600);
+          exportBtn.textContent = "Copied";
+          setTimeout(function () { exportBtn.textContent = "Export"; }, 1600);
         }, function () { /* clipboard blocked — the textarea is already selected */ });
       }
     });
