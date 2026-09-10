@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="docs/mark.gif" alt="clean-diagram" width="150">
+</p>
+
+<p align="center">
   <img src="docs/logo.gif" alt="clean-diagram" width="440">
 </p>
 
