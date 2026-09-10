@@ -9,7 +9,7 @@ Palette and easing come from skills/clean-diagram/assets/editorial-dark.css.
 import math, os, subprocess, tempfile
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
-W, H, SS = 480, 250, 3          # output size, supersample factor
+W, H, SS = 480, 206, 3          # output size, supersample factor
 FPS, DUR = 25, 3.2              # loop length in seconds
 
 BG      = (10, 10, 11)
@@ -25,20 +25,20 @@ f_lbl = ImageFont.truetype(MONO, 10 * SS)
 f_word = ImageFont.truetype(MONO, 15 * SS, index=1)
 
 NODES = [  # cx, cy, label, is_entry
-    (86, 66, "app", True),
-    (222, 66, "api", False),
-    (222, 128, "queue", False),
-    (358, 128, "store", False),
+    (86, 49, "app", True),
+    (222, 49, "api", False),
+    (222, 111, "queue", False),
+    (358, 111, "store", False),
 ]
 EDGES = [(0, 1), (1, 2), (2, 3), (0, 2)]
 NW, NH, NR = 76, 26, 5
-DRAG_TO = (150, 174)            # where node 2 gets pulled
+DRAG_TO = (150, 157)            # where node 2 gets pulled
 
 # timeline (ms)
 T_NODE, T_NODE_STEP, T_NODE_DUR = 60, 90, 380
 T_EDGE, T_EDGE_STEP, T_EDGE_DUR = 620, 90, 340
 T_CUR_IN, T_DRAG, T_DRAG_DUR, T_CUR_OUT = 1050, 1250, 650, 1950
-T_WORD, T_WORD_DUR, T_FADE = 1600, 400, 2850
+T_FADE = 2850
 
 
 def clamp(x, a=0.0, b=1.0): return max(a, min(b, x))
@@ -166,20 +166,6 @@ def frame_at(ms, bg):
         lay = new_layer()
         draw_cursor(ImageDraw.Draw(lay), pos[2][0] + 16, pos[2][1] + 2)
         content = blend(content, lay, ca)
-
-    wt = seg(ms, T_WORD, T_WORD_DUR)
-    if wt > 0:
-        lay = new_layer(); d = ImageDraw.Draw(lay)
-        word, track = "clean-diagram", 1.6 * SS
-        wid = sum(d.textlength(c, font=f_word) + track for c in word) - track
-        x, y = (W * SS - wid) / 2, (216 - 6 * (1 - ease_out(wt))) * SS
-        for c in word:
-            d.text((x, y), c, font=f_word, fill=FG + (255,))
-            x += d.textlength(c, font=f_word) + track
-        uw = wid * ease_out(seg(ms, T_WORD + 100, 420))
-        d.rectangle([(W * SS - wid) / 2, y + 21 * SS,
-                     (W * SS - wid) / 2 + uw, y + 21 * SS + 1.6 * SS], fill=ACCENT + (255,))
-        content = blend(content, lay, wt)
 
     out = blend(bg, content, 1 - seg(ms, T_FADE, DUR * 1000 - T_FADE))
     return out.convert("RGB").resize((W, H), Image.LANCZOS)
