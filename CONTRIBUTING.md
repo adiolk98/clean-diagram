@@ -1,6 +1,6 @@
 # Contributing
 
-Small repo, short rules. English first, 繁體中文 below.
+Small repo, short rules. English first
 
 ## Pull requests
 
